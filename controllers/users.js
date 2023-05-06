@@ -1,8 +1,5 @@
 const User = require('../models/user');
-
-const ERROR = 400;
-const ERROR_NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const { ERROR, ERROR_NOT_FOUND, ERROR_DEFAULT } = require('../utils/constans');
 
 const checkUser = (user, res) => {
   if (user) {
@@ -15,7 +12,7 @@ const checkUser = (user, res) => {
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send({ users }))
     .catch(() => {
       res
         .status(ERROR_DEFAULT)
@@ -28,7 +25,9 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((newUser) => {
-      res.send(newUser);
+      res
+        .status(201)
+        .send(newUser);
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
@@ -68,8 +67,7 @@ const editProfile = (req, res) => {
   )
     .then((user) => checkUser(user, res))
     .catch((error) => {
-      console.log(error);
-      if (error.name === 'ValidationError') {
+      if (error.name === 'ValidationError' || error.name === 'CastError') {
         return res
           .status(ERROR)
           .send({ message: 'Переданы некорректные данные при обновлении профиля' });
@@ -87,7 +85,7 @@ const updateAvatar = (req, res) => {
   User.findByIdAndUpdate(owner, avatar, { new: true, runValidators: true })
     .then((user) => checkUser(user, res))
     .catch((error) => {
-      if (error.name === 'ValidationError') {
+      if (error.name === 'ValidationError' || error.name === 'CastError') {
         return res
           .status(ERROR)
           .send({ message: 'Переданы некорректные данные при обновлении аватара' });

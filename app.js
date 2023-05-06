@@ -18,10 +18,6 @@ app.use((req, res, next) => {
 
 app.use(router);
 
-app.use((req, res) => {
-  res.status(404).send({ message: 'Такого роута нет' });
-});
-
 app.listen(PORT, () => {
   console.log(`start server on port ${PORT}`);
 });

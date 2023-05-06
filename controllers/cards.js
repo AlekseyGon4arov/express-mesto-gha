@@ -1,8 +1,6 @@
 const Card = require('../models/card');
 
-const ERROR = 400;
-const ERROR_NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const { ERROR, ERROR_NOT_FOUND, ERROR_DEFAULT } = require('../utils/constans');
 
 const checkCard = (card, res) => {
   if (card) {
@@ -31,7 +29,9 @@ const createCard = (req, res) => {
 
   Card.create({ name, link, owner: _id })
     .then((newCard) => {
-      res.send(newCard);
+      res
+        .status(201)
+        .send(newCard);
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
