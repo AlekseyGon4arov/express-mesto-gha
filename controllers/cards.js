@@ -39,7 +39,7 @@ const deleteCard = (req, res, next) => {
   Card.deleteOne({ _id: cardId })
     .then((card) => {
       if (card.deletedCount === 0) {
-        res.send({ message: 'Карточка удалена' });
+        throw new NotFoundErr('Карточка с указанным id не найдена');
       }
     })
     .catch(next);

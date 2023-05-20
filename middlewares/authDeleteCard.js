@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
       if (card.owner.toHexString() !== req.user._id) {
         next(new ForbiddenErr('Вы не можете удалить данную карточку'));
       }
-      return next();
+      return res.send({ message: 'Карточка удалена' });
     })
     .catch(next);
 };
