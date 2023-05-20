@@ -1,9 +1,7 @@
-const ERROR = 400;
-const ERROR_NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const JWT_SECRET = 'c06f64896bfaa63764c09d767b9f645a84f82aa70a672e6b4da5548aa60a507e';
+const urlRegEx = /^(ftp|http|https):\/\/[^ "]+$/;
 
 module.exports = {
-  ERROR,
-  ERROR_NOT_FOUND,
-  ERROR_DEFAULT
+  JWT_SECRET,
+  urlRegEx
 };
