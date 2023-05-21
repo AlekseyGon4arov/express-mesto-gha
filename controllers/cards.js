@@ -11,6 +11,7 @@ const checkCard = (card, res) => {
 
 const getCards = (req, res, next) => {
   Card.find({})
+    .populate(['owner', 'likes'])
     .then((cards) => {
       res.send(cards);
     })
@@ -39,8 +40,9 @@ const deleteCard = (req, res, next) => {
   Card.deleteOne({ _id: cardId })
     .then((card) => {
       if (card.deletedCount === 0) {
-        throw new NotFoundErr('Карточка с указанным id не найдена');
+        throw new NotFoundErr('Карточка с указанным _id не найдена.');
       }
+      return res.send({ message: 'Карточка удалена' });
     })
     .catch(next);
 };
