@@ -68,7 +68,7 @@ const createUser = (req, res, next) => {
       .catch((error) => {
         if (error.code === 11000) {
           next(new ConflictErr('Пользователь с такой почтой уже зарегистрирвован'));
-        }
+        } else next(error);
       });
   });
 };
@@ -95,9 +95,8 @@ const editProfile = (req, res, next) => {
     .then((user) => checkUser(user, res))
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequestErr('Переданы некорректные данные при обновлении профиля');
-      }
-      next(error);
+        next(new BadRequestErr('Переданы некорректные данные при обновлении профиля'));
+      } else next(error);
     });
 };
 
@@ -109,9 +108,8 @@ const updateAvatar = (req, res, next) => {
     .then((user) => checkUser(user, res))
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequestErr('Переданы некорректные данные при обновлении профиля');
-      }
-      next(error);
+        next(new BadRequestErr('Переданы некорректные данные при обновлении профиля'));
+      } else next(error);
     });
 };
 

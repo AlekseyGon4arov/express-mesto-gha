@@ -6,10 +6,10 @@ module.exports = (req, res, next) => {
   Card.findById({ _id: req.params.cardId })
     .then((card) => {
       if (!card) {
-        next(new NotFoundErr('Карточки с указанным id не существует'));
+        return next(new NotFoundErr('Карточки с указанным id не существует'));
       }
       if (card.owner.toHexString() !== req.user._id) {
-        next(new ForbiddenErr('У вас нет прав на удаление чужой карточки'));
+        return next(new ForbiddenErr('У вас нет прав на удаление чужой карточки'));
       }
       return next();
     })

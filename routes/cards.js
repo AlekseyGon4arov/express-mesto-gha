@@ -39,7 +39,7 @@ cardsRouter.delete('/:cardId', celebrate({
     cardId: Joi.string().hex().length(24).messages({
       'string.hex': 'Некорректный id',
     }),
-  }),
+  }).required(),
 }), authDeleteCard, deleteCard);
 
 cardsRouter.put('/:cardId/likes', celebrate({
@@ -47,7 +47,7 @@ cardsRouter.put('/:cardId/likes', celebrate({
     cardId: Joi.string().hex().length(24).messages({
       'string.hex': 'Некорректный id',
     }),
-  }),
+  }).required(),
 }), likeCard);
 
 cardsRouter.delete('/:cardId/likes', celebrate({
@@ -55,7 +55,7 @@ cardsRouter.delete('/:cardId/likes', celebrate({
     cardId: Joi.string().hex().length(24).messages({
       'string.hex': 'Некорректный id',
     }),
-  }),
+  }).required(),
 }), dislikeCard);
 
 module.exports = cardsRouter;

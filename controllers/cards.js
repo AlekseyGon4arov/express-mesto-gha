@@ -24,13 +24,14 @@ const createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: _id })
     .then((newCard) => {
-      res.send(newCard);
+      res
+        .status(201)
+        .send(newCard);
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
         next(new BadRequestErr('Переданы некорректные данные при создании карточки'));
-      }
-      next(error);
+      } else next(error);
     });
 };
 
@@ -54,7 +55,7 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: owner } },
-    { new: true, runValidators: true }
+    { new: true }
   )
     .then((card) => checkCard(card, res))
     .catch(next);
@@ -67,7 +68,7 @@ const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: owner } },
-    { new: true, runValidators: true }
+    { new: true }
   )
     .then((card) => checkCard(card, res))
     .catch(next);

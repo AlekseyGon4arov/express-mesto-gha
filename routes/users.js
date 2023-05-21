@@ -16,7 +16,7 @@ usersRouter.get('/me', getMe);
 usersRouter.get('/:userId', celebrate({
   params: Joi.object({
     userId: Joi.string().hex().length(24).message('Некорректный id'),
-  }),
+  }).required(),
 }), getUserById);
 
 usersRouter.patch('/me', celebrate({
@@ -29,13 +29,13 @@ usersRouter.patch('/me', celebrate({
       .min(2)
       .max(30)
       .message('Это поле должно быть от 2 до 30 символов'),
-  }),
+  }).required(),
 }), editProfile);
 
 usersRouter.patch('/me/avatar', celebrate({
   body: Joi.object({
     avatar: Joi.string().regex(urlRegEx).message('Некорректная ссылка'),
-  }),
+  }).required(),
 }), updateAvatar);
 
 module.exports = usersRouter;
